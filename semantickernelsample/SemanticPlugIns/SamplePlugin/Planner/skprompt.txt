@@ -1,0 +1,5 @@
+{{$input}}
+
+==
+Derive steps from that request and provide a plan. Afterwards continue with answering the request.
+==

@@ -1,0 +1,10 @@
+
+{{SamplePlugin.Translator input=$input language=$language}} DOES NOT WORK!!! IT DOES NOT TRANSLATE!!
+
+-----------------------------------------------
+
+Summarize and compress abstract to 50 words, using a user friendly language. 
+
+[Input]
+{{$input}}
+

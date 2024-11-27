@@ -1,0 +1,22 @@
+
+
+Write the origin language and destination language.
+Then summarize the scientific abstract using a user friendly destination language. 
+
+Translated Abstract: {{SamplePlugin.Translator input=$input language=$language}}
+Provide the result in following format:	
+
+[Output]
+Number of translated words: ,
+Origin language:
+Destination language:
+Text: translated text
+
+[Input]
+{{$input}}
+
+--------------------------------------
+
+[Output]
+
+
