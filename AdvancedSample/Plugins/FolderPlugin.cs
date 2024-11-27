@@ -8,7 +8,7 @@ namespace SKTrainingSolution.AdvancedSample
 {
     public class FolderPlugin
     {
-        [KernelFunction("Create a folder at the specified path."), Description("Creates a new folder if it does not already exist.")]
+        [KernelFunction, Description("Creates a new folder if it does not already exist.")]
         public async Task CreateFolderAsync(string path)
         {
             if (!Directory.Exists(path))
@@ -22,7 +22,7 @@ namespace SKTrainingSolution.AdvancedSample
             }
         }
 
-        [KernelFunction("Delete the folder at the specified path."), Description("Deletes the specified folder if it exists.")]
+        [KernelFunction, Description("Deletes the specified folder if it exists.")]
         public async Task DeleteFolderAsync(string path)
         {
             if (Directory.Exists(path))
@@ -36,7 +36,7 @@ namespace SKTrainingSolution.AdvancedSample
             }
         }
 
-        [KernelFunction("List all folders in the specified path."), Description("Lists all subfolders within the specified folder.")]
+        [KernelFunction, Description("Lists all subfolders within the specified folder.")]
         public async Task<string[]> ListFoldersAsync(string path)
         {
             if (Directory.Exists(path))
@@ -50,7 +50,7 @@ namespace SKTrainingSolution.AdvancedSample
             }
         }
 
-        [KernelFunction("List all files in the specified path."), Description("Lists all files within the specified folder.")]
+        [KernelFunction, Description("Lists all files within the specified folder.")]
         public async Task<string[]> ListFilesAsync(string path)
         {
             if (Directory.Exists(path))

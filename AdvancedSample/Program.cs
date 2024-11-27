@@ -20,11 +20,13 @@ namespace AdvancedSample
             kernel.Plugins.AddFromObject(new FolderPlugin());
             kernel.Plugins.AddFromObject(new FilePlugin());
 
-            var ask = "create a c# class for counting numbers.";
+            Console.WriteLine("Welcome to the Semantic Kernel SinmpleCopilot!");
+            Console.Write("What do you want me to do? ");
+            var ask = Console.ReadLine();
             var chatSvc = kernel.GetRequiredService<IChatCompletionService>();
             ChatHistory chat = new ChatHistory();
             chat.AddUserMessage(ask);
-            var response = chatSvc.GetChatMessageContentAsync(chat, executionSettings: new (){FunctionChoiceBehavior= FunctionChoiceBehavior.Auto()}).Result;
+            var response = chatSvc.GetChatMessageContentAsync(chat, executionSettings: new (){FunctionChoiceBehavior= FunctionChoiceBehavior.Auto()}, kernel: kernel).Result;
 
             Debug.WriteLine(response);
         }

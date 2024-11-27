@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "semantickernelsample": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "OPENAI_CHATCOMPLETION_DEPLOYMENT": "gpt-4o",
+        "OPENAI_API_KEY": "sk-**",
+        "OPENAI_ORGID": "org-***",
+
+        "AZURE_OPENAI_CHATCOMPLETION_DEPLOYMENT": "gpt35t",
+        "AZURE_OPENAI_ENDPOINT": "https://OpenAITT-EASTUS.openai.azure.com/",
+        "AZURE_OPENAI_API_KEY": "5e8a95f9f387422b846a0698514ec27b"
+      }
+    }
+  }
+}
