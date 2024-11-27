@@ -1,6 +1,12 @@
 {
     "version": "0.2.0",
     "configurations": [
+    {
+        "name": "C#: Simple API Debug",
+        "type": "dotnet",
+        "request": "launch",
+        "projectPath": "${workspaceFolder}/SimpleAPICall/SimpleAPICall.csproj"
+    },
         {
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
