@@ -6,7 +6,7 @@ using System.Diagnostics;
 using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
 using System.Collections.Concurrent;
 using Microsoft.SemanticKernel.Connectors.AI.OpenAI.AzureSdk;
-using SKTrainingSolution.AdvancedSample;
+
 
 namespace AdvancedSample
 {

@@ -12,9 +12,11 @@ using System.Diagnostics;
 using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
 using System.Collections.Concurrent;
 using Microsoft.SemanticKernel.Connectors.AI.OpenAI.AzureSdk;
-//using Microsoft.SemanticKernel.Planning.Handlebars;
+using Microsoft.SemanticKernel.ChatCompletion;
+
 internal class Program
 {
+
     private static async Task Main(string[] args)
     {
         //TestPerformance();
@@ -58,7 +60,7 @@ internal class Program
         //await TemplateExample();
 
         //await Sample_StepwisePlaner();
-        await Sample_NewPlaner();
+        //await Sample_NewPlaner();
 
         //await Sample_WorkshopFunctionCall();
 
@@ -606,7 +608,7 @@ The menu reads in enumerated form:
 
         sematicFunc = kernel.CreateFunctionFromPrompt(skPrompt, new OpenAIPromptExecutionSettings() { MaxTokens = 150, Temperature = 0.4, TopP = 1 });
 
-        result = await kernel.InvokeAsync<string>(sematicFunc, new() { ["input"] = DateTime.Now.AddDays(1).ToString("MMM/dd")! });
+        result = await kernel.InvokeAsync<string>(sematicFunc, new() { ["input"] = DateTime.Now.ToString("MMM/dd")! });
 
         Console.WriteLine(result);
     }
@@ -747,7 +749,9 @@ var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "SemanticPlug
         var chatSvc = kernel.GetRequiredService<IChatCompletionService>();
         ChatHistory chat = new ChatHistory();
         chat.AddUserMessage(ask);
+#pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         AzureOpenAIPromptExecutionSettings settings = new() { FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() };
+#pragma warning restore SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         var result = await chatSvc.GetChatMessageContentAsync(chat, settings, kernel: kernel);
 
         Console.WriteLine("Plan results:");
@@ -905,8 +909,10 @@ var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "SemanticPlug
 
 ChatHistory chat = new ChatHistory();
 chat.AddUserMessage(ask);
-AzureOpenAIPromptExecutionSettings settings = new(){FunctionChoiceBehavior=FunctionChoiceBehavior.Auto()};
-var _ = await chatService.GetChatMessageContentAsync(chat, settings, kernel: kernel);
+#pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        AzureOpenAIPromptExecutionSettings settings = new(){FunctionChoiceBehavior=FunctionChoiceBehavior.Auto()};
+#pragma warning restore SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        var _ = await chatService.GetChatMessageContentAsync(chat, settings, kernel: kernel);
         Console.WriteLine("Plan results:");
         Console.WriteLine(result.FinalAnswer!.Trim());
 
@@ -1054,6 +1060,7 @@ var _ = await chatService.GetChatMessageContentAsync(chat, settings, kernel: ker
     {
         //return GetOpenAIKernel();
         return GetAzureKernel();
+        //return GetOllamaKernel();
     }
 
 
@@ -1100,6 +1107,17 @@ var _ = await chatService.GetChatMessageContentAsync(chat, settings, kernel: ker
       )
       .Build();
         }
+        return kernel;
+    }
+
+        private static Kernel GetOllamaKernel(string? useChatOrTextCompletionModel = "chat")
+    {
+            var builder = Kernel.CreateBuilder();
+            builder.Services.AddProxyForDebug();
+            #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            var kernel = builder.AddOllamaChatCompletion("llama3.2:latest", new Uri("http://localhost:11434"))
+            .Build();
+
         return kernel;
     }
     #endregion

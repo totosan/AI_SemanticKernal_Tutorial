@@ -1,46 +1,52 @@
-// create a class containing file operations annotated with the [KernelFunction] and description attribute for semantic kernel
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.SemanticKernel;
 
-namespace SKTrainingSolution.AdvancedSample
+public class FilePlugin
 {
-    public class FilePlugin
+    // ...existing code...
+
+    [KernelFunction]
+    [Description("Reads the content of a file.")]
+    public async Task<string> ReadFileAsync([Description("this is the filepath")]string filePath )
     {
-        [KernelFunction, Description("Reads the content of a file.")]
-        public string ReadFile(string filePath)
+        if (string.IsNullOrEmpty(filePath))
         {
-            if (File.Exists(filePath))
-            {
-                return File.ReadAllText(filePath);
-            }
-            throw new FileNotFoundException("File not found.", filePath);
+            throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
         }
 
-        [KernelFunction, Description("Writes content to a file.")]
-        public void WriteFile(string filePath, string content)
+        using (var reader = new StreamReader(filePath))
         {
-            File.WriteAllText(filePath, content);
+            return await reader.ReadToEndAsync();
+        }
+    }
+
+    [KernelFunction]
+    [Description("Writes content to a file.")]
+    public async Task WriteFileAsync(string filePath, string content)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
         }
 
-        [KernelFunction, Description("Appends content to a file.")]
-        public void AppendToFile(string filePath, string content)
+        using (var writer = new StreamWriter(filePath))
         {
-            File.AppendAllText(filePath, content);
+            await writer.WriteAsync(content);
+        }
+    }
+
+    [KernelFunction]
+    [Description("Deletes a file.")]
+    public void DeleteFile(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
         }
 
-        [KernelFunction, Description("Deletes a file.")]
-        public void DeleteFile(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-            else
-            {
-                throw new FileNotFoundException("File not found.", filePath);
-            }
-        }
+        File.Delete(filePath);
     }
 }
